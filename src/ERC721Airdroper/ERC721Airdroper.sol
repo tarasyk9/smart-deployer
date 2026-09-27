@@ -1,24 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import "../IUtilityContract.sol";
-import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "../UtilityContract/IUtilityContract.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ERC1155Airdroper is IUtilityContract, Ownable {
+contract ERC721Airdroper is IUtilityContract, Ownable {
 
     constructor() Ownable(msg.sender) payable {}
 
-    IERC1155 public token;
+    IERC721 public token;
     address public treasury;
     uint256 public constant MAX_AIRDROP_BATCH_SIZE = 10;
 
     error AlreadyInitialized();
-    error AmountLengthMismatch();
+    error ArraysLengthMismatch();
     error NeedToAprovedTokens();
     error TransferFailed();
     error BatchSizeExceeded();
-    error ReceiversLengthMismatch();
 
     modifier notInitialized() {
         require(!initialized, AlreadyInitialized());
@@ -27,19 +26,15 @@ contract ERC1155Airdroper is IUtilityContract, Ownable {
 
     bool private initialized;
 
-    function airdrop(address[] calldata receivers, uint256[] calldata amounts, uint256[] calldata tokenIds)
-        external
-        onlyOwner
-    {
-        require(tokenIds.length < MAX_AIRDROP_BATCH_SIZE, BatchSizeExceeded());
-        require(receivers.length == tokenIds.length, ReceiversLengthMismatch());
-        require(amounts.length == tokenIds.length, AmountLengthMismatch());
+    function airdrop(address[] calldata receivers, uint256[] calldata tokenIds) external onlyOwner {
+        require(receivers.length <= MAX_AIRDROP_BATCH_SIZE,BatchSizeExceeded());
+        require(receivers.length == tokenIds.length, ArraysLengthMismatch());
         require(token.isApprovedForAll(treasury, address(this)), NeedToAprovedTokens());
 
         address treasuryAddress = treasury;
 
-        for (uint256 i = 0; i < amounts.length;) {
-            token.safeTransferFrom(treasuryAddress, receivers[i], tokenIds[i], amounts[i], "");
+        for (uint256 i = 0; i < receivers.length;) {
+            token.safeTransferFrom(treasuryAddress, receivers[i], tokenIds[i], "");
             unchecked { ++i; }
         }
     }
@@ -47,7 +42,7 @@ contract ERC1155Airdroper is IUtilityContract, Ownable {
     function initialize(bytes memory _initData) external returns (bool) {
         (address _token, address _treasury, address _owner) = abi.decode(_initData, (address, address, address));
 
-        token = IERC1155(_token);
+        token = IERC721(_token);
         treasury = _treasury;
 
         Ownable._transferOwnership(_owner);

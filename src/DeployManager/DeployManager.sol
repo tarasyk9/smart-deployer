@@ -3,7 +3,7 @@ pragma solidity ^0.8.30;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
-import "../IUtilityContract.sol";
+import "../UtilityContract/IUtilityContract.sol";
 import "./IDeployManager.sol";
 
 contract DeployManager is IDeployManager, Ownable {
