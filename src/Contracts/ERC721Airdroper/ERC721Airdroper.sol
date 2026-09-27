@@ -6,15 +6,18 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ERC721Airdroper is IUtilityContract, Ownable {
-    constructor() Ownable(msg.sender) {}
+
+    constructor() Ownable(msg.sender) payable {}
 
     IERC721 public token;
     address public treasury;
+    uint256 public constant MAX_AIRDROP_BATCH_SIZE = 10;
 
     error AlreadyInitialized();
     error ArraysLengthMismatch();
     error NeedToAprovedTokens();
     error TransferFailed();
+    error BatchSizeExceeded();
 
     modifier notInitialized() {
         require(!initialized, AlreadyInitialized());
@@ -23,12 +26,16 @@ contract ERC721Airdroper is IUtilityContract, Ownable {
 
     bool private initialized;
 
-    function airdrop(address[] calldata _receivers, uint256[] calldata _tokenId) external onlyOwner {
-        require(_receivers.length == _tokenId.length, ArraysLengthMismatch());
+    function airdrop(address[] calldata receivers, uint256[] calldata tokenIds) external onlyOwner {
+        require(receivers.length <= MAX_AIRDROP_BATCH_SIZE,BatchSizeExceeded());
+        require(receivers.length == tokenIds.length, ArraysLengthMismatch());
         require(token.isApprovedForAll(treasury, address(this)), NeedToAprovedTokens());
 
-        for (uint256 i = 0; i < _receivers.length; i++) {
-            token.safeTransferFrom(treasury, _receivers[i], _tokenId[i], "");
+        address treasuryAddress = treasury;
+
+        for (uint256 i = 0; i < receivers.length;) {
+            token.safeTransferFrom(treasuryAddress, receivers[i], tokenIds[i], "");
+            unchecked { ++i; }
         }
     }
 
