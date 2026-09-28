@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.29;
+pragma solidity ^0.8.30;
 
 import "../UtilityContract/AbstractUtilityContract.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title ERC20Airdroper - Airdrop utility contract for ERC20 tokens
+/// @notice This contract allows the owner to airdrop ERC20 tokens to multiple addresses
+/// @dev Inherits from AbstractUtilityContract and Ownable
 contract ERC20Airdroper is AbstractUtilityContract, Ownable {
     constructor() payable Ownable(msg.sender) {}
 

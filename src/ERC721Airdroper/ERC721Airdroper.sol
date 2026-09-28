@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.29;
+pragma solidity ^0.8.30;
 
 import "../UtilityContract/AbstractUtilityContract.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title ERC721Airdroper - Airdrop utility contract for ERC721 tokens
+/// @notice This contract allows the owner to airdrop ERC721 tokens to multiple addresses
+/// @dev Inherits from AbstractUtilityContract and Ownable
 contract ERC721Airdroper is AbstractUtilityContract, Ownable {
     constructor() payable Ownable(msg.sender) {}
 
