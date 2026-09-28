@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import "../UtilityContract/IUtilityContract.sol";
+import "../UtilityContract/AbstractUtilityContract.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Vesting is IUtilityContract, Ownable {
+contract Vesting is AbstractUtilityContract, Ownable {
 
     constructor() Ownable(msg.sender) payable {}
 
     IERC20 public token;
-    bool private initialized;
     uint256 public allocatedTokens;
 
     struct VestingInfo {
@@ -26,7 +25,6 @@ contract Vesting is IUtilityContract, Ownable {
 
     mapping(address => VestingInfo) public vestings;
 
-    error AlreadyInitialized();
     error CliffNotReached();
     error NothingToClaim();
     error TransferFailed();
@@ -48,11 +46,6 @@ contract Vesting is IUtilityContract, Ownable {
     event Claim(address beneficiary, uint256 amount, uint256 timestamp);
     event VestingCreated(address beneficiary, uint256 amount, uint256 creationTime);
     event TokenWithdrawn(address to, uint256 amount);
-
-    modifier notInitialized() {
-        require(!initialized, AlreadyInitialized());
-        _;
-    }
 
     function claim() public {
         VestingInfo memory vesting = vestings[msg.sender];
@@ -140,8 +133,10 @@ contract Vesting is IUtilityContract, Ownable {
         emit TokenWithdrawn(_to, available);
     }
 
-    function initialize(bytes memory _initData) external returns (bool) {
-        (address _token, address _owner) = abi.decode(_initData, (address, address));
+    function initialize(bytes memory _initData) external override returns (bool) {
+        (address _deployManager, address _token, address _owner) = abi.decode(_initData, (address, address, address));
+
+        setDeployManager(_deployManager);
 
         token = IERC20(_token);
 
@@ -152,7 +147,7 @@ contract Vesting is IUtilityContract, Ownable {
         return true;
     }
 
-    function getInitData(address _token, address _owner) external pure returns (bytes memory) {
-        return abi.encode(_token, _owner);
+    function getInitData(address _deployManager, address _token, address _owner) external pure returns (bytes memory) {
+        return abi.encode(_deployManager, _token, _owner);
     }
 }
