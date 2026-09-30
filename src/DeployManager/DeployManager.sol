@@ -41,7 +41,11 @@ contract DeployManager is IDeployManager, Ownable, ERC165 {
 
         deployedContracts[msg.sender].push(clone);
 
-        payable(owner()).transfer(msg.value);
+        (bool success, ) = payable(owner()).call{value: msg.value}("");
+
+        if (!success) {
+        revert TransferFailed();
+        }
 
         emit NewDeployment(msg.sender, clone, msg.value, block.timestamp);
 

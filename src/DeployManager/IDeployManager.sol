@@ -28,6 +28,9 @@ interface IDeployManager is IERC165 {
     /// @dev Reverts if the contracts already registered
     error AlreadyRegistered();
 
+    /// @dev Reverts if the transfer is failed
+    error  TransferFailed();
+
     // ------------------------------------------------------------------------
     // Events
     // ------------------------------------------------------------------------
