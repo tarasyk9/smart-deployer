@@ -31,7 +31,6 @@ contract ERC721Airdroper is AbstractUtilityContract, Ownable {
     /// @dev Reverts if batch size exceeds limit
     error BatchSizeExceeded();
 
-
     /// @notice Distributes ERC721 tokens from treasury to recipients
     /// @param receivers Addresses to receive tokens
     /// @param tokenIds The ids ERC721 token

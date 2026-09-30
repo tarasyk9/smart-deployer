@@ -29,7 +29,7 @@ interface IDeployManager is IERC165 {
     error AlreadyRegistered();
 
     /// @dev Reverts if the transfer is failed
-    error  TransferFailed();
+    error TransferFailed();
 
     // ------------------------------------------------------------------------
     // Events

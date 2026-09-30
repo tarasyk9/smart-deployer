@@ -36,15 +36,14 @@ contract DeployManager is IDeployManager, Ownable, ERC165 {
 
         address clone = Clones.clone(_utilityContract);
 
-
         require(IUtilityContract(clone).initialize(_initData), InitializationFailed());
 
         deployedContracts[msg.sender].push(clone);
 
-        (bool success, ) = payable(owner()).call{value: msg.value}("");
+        (bool success,) = payable(owner()).call{value: msg.value}("");
 
         if (!success) {
-        revert TransferFailed();
+            revert TransferFailed();
         }
 
         emit NewDeployment(msg.sender, clone, msg.value, block.timestamp);
@@ -60,7 +59,8 @@ contract DeployManager is IDeployManager, Ownable, ERC165 {
         );
         require(contractsData[_contractAddress].registeredAt == 0, AlreadyRegistered());
 
-        contractsData[_contractAddress] = ContractInfo({fee: _fee, isDeployable: _isDeployable, registeredAt: block.timestamp});
+        contractsData[_contractAddress] =
+            ContractInfo({fee: _fee, isDeployable: _isDeployable, registeredAt: block.timestamp});
 
         emit NewContractAdded(_contractAddress, _fee, _isDeployable, block.timestamp);
     }

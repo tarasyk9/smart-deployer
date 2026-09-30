@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-
 /// @title Vesting Interface
 /// @notice Provides a standard interface for token vesting contracts
 interface IVesting {

@@ -127,11 +127,7 @@ contract VestingTest is Test {
         assertFalse(template.initialized(), "Template should not be initialized");
     }
 
-    function encodeInitData(address _deployManager, address _token, address _owner)
-        public
-        pure
-        returns (bytes memory)
-    {
+    function encodeInitData(address _deployManager, address _token, address _owner) public pure returns (bytes memory) {
         return abi.encode(_deployManager, _token, _owner);
     }
 
