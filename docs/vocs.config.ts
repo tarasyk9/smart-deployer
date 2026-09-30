@@ -6,9 +6,11 @@ export default defineConfig({
 
   basePath: '/smart-deployer',
 
+  renderStrategy: 'full-static',
+
   editLink: {
     link: (path) =>
-    `https://github.com/tarasyk9/smart-deployer/edit/main/docs/src/pages/${path}`,
+      `https://github.com/tarasyk9/smart-deployer/edit/main/docs/src/pages/${path}`,
     text: 'Suggest changes to this page',
   },
 
