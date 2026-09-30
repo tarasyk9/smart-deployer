@@ -1,0 +1,16 @@
+import { defineConfig } from 'vocs/config'
+import { sidebar } from './vocs.sidebar'
+
+export default defineConfig({
+  title: "Documentation",
+  editLink: { pattern: 'https://github.com/tarasyk9/smart-deployer/edit/main/{path}' },
+  codeHighlight: {
+    fallbackLanguage: 'plaintext',
+    langs: [
+      'ansi', 'bash', 'diff', 'html', 'js', 'json', 'jsx',
+      'markdown', 'md', 'mdx', 'plaintext', 'rust', 'sol', 'solidity',
+      'toml', 'ts', 'tsx', 'yaml', 'zsh',
+    ],
+  },
+  sidebar,
+})

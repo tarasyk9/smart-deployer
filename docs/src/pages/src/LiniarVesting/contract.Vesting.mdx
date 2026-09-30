@@ -1,0 +1,219 @@
+---
+title: "Vesting"
+description: "Manages token vesting schedules for beneficiaries"
+---
+
+# Vesting
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/LiniarVesting/Vesting.sol)
+
+**Inherits:** [IVesting](/src/LiniarVesting/interface.IVesting), [AbstractUtilityContract](/src/UtilityContract/abstract.AbstractUtilityContract), Ownable
+
+**Title:** Vesting Contract
+
+Manages token vesting schedules for beneficiaries
+
+<i>
+
+Inherits IVesting, AbstractUtilityContract, Ownable
+
+</i>
+
+## State Variables
+
+### token
+
+The ERC20 token that is being vested
+
+```solidity
+IERC20 public token;
+```
+
+### allocatedTokens
+
+The total amount of tokens that have been allocated for vesting
+
+```solidity
+uint256 public allocatedTokens;
+```
+
+### vestings
+
+A mapping of beneficiary addresses to their vesting information
+
+```solidity
+mapping(address => IVesting.VestingInfo) public vestings;
+```
+
+## Functions
+
+<a id="constructor"></a>
+
+### constructor
+
+Initializes the contract with deploy manager, token, and owner
+
+```solidity
+constructor() payable Ownable(msg.sender);
+```
+
+<a id="claim"></a>
+
+### claim
+
+Claims all tokens currently available for the caller according to their vesting schedule
+
+```solidity
+function claim() public;
+```
+
+<a id="startvesting-ivesting-vestingparams"></a>
+
+### startVesting
+
+Creates a new vesting schedule for a beneficiary
+
+```solidity
+function startVesting(IVesting.VestingParams calldata params) external onlyOwner;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| params | `IVesting.VestingParams` | Struct containing the parameters for the new vesting schedule |
+
+<a id="withdrawunallocated-address"></a>
+
+### withdrawUnallocated
+
+Withdraws all unallocated tokens from the contract to the specified address
+
+```solidity
+function withdrawUnallocated(address _to) external onlyOwner;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _to | `address` | Address to receive the withdrawn tokens |
+
+<a id="initialize-bytes"></a>
+
+### initialize
+
+Initializes the utility contract with the provided data
+
+<i>
+
+This function should be called by the DeployManager after deploying the contract
+
+</i>
+
+```solidity
+function initialize(bytes memory _initData) external override notInitialized returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _initData | `bytes` | The initialization data for the utility contract |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` | True if the initialization was successful |
+
+<a id="vestedamount-address"></a>
+
+### vestedAmount
+
+Returns the total amount of tokens vested for a beneficiary at the current time
+
+```solidity
+function vestedAmount(address _claimer) public view returns (uint256);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _claimer | `address` | Address of the beneficiary |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `uint256` | Amount of tokens vested |
+
+<a id="claimableamount-address"></a>
+
+### claimableAmount
+
+Returns the amount of tokens that can currently be claimed by a beneficiary
+
+```solidity
+function claimableAmount(address _claimer) public view returns (uint256);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _claimer | `address` | Address of the beneficiary |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `uint256` | Amount of tokens claimable |
+
+<a id="getvestinginfo-address"></a>
+
+### getVestingInfo
+
+Returns the information about a vesting schedule for a beneficiary
+
+```solidity
+function getVestingInfo(address _claimer) public view returns (IVesting.VestingInfo memory);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _claimer | `address` | Address of the beneficiary |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `IVesting.VestingInfo` | VestingInfo struct containing the vesting information |
+
+<a id="getinitdata-address-address-address"></a>
+
+### getInitData
+
+Returns the ABI-encoded initialization data for the contract
+
+```solidity
+function getInitData(address _deployManager, address _token, address _owner) external pure returns (bytes memory);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _deployManager | `address` | Address of the deploy manager |
+| _token | `address` | Address of the ERC20 token |
+| _owner | `address` | Address of the contract owner |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bytes` | ABI-encoded initialization data |
+

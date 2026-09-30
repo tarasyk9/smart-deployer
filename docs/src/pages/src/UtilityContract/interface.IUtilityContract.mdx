@@ -1,0 +1,117 @@
+---
+title: "IUtilityContract"
+description: "This interface defines the functions and events for utility contracts"
+---
+
+# IUtilityContract
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/UtilityContract/IUtilityContract.sol)
+
+**Inherits:** IERC165
+
+**Title:** IUtilityContract - Interface for utility contracts
+
+This interface defines the functions and events for utility contracts
+
+<i>
+
+Utility contracts should implement this interface to be compatible with the DeployManager
+
+</i>
+
+## Functions
+
+<a id="initialize-bytes"></a>
+
+### initialize
+
+Initializes the utility contract with the provided data
+
+<i>
+
+This function should be called by the DeployManager after deploying the contract
+
+</i>
+
+```solidity
+function initialize(bytes memory _initData) external returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _initData | `bytes` | The initialization data for the utility contract |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` | True if the initialization was successful |
+
+<a id="getdeploymanager"></a>
+
+### getDeployManager
+
+Shows DeployManager used for deployment of current contract
+
+```solidity
+function getDeployManager() external view returns (address);
+```
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `address` | address of deployManager |
+
+## Errors
+
+### DeployManagerCannotBeZero
+
+<i>
+
+Reverts if the deploy manager is not set or is invalid
+
+</i>
+
+```solidity
+error DeployManagerCannotBeZero();
+```
+
+### NotDeployManager
+
+<i>
+
+Reverts if coller is not DeployManager
+
+</i>
+
+```solidity
+error NotDeployManager();
+```
+
+### FailedToValidateDeployManager
+
+<i>
+
+Reverts if DeployManager validation failed throw validateDeployManager()
+
+</i>
+
+```solidity
+error FailedToValidateDeployManager();
+```
+
+### AlreadyInitialized
+
+<i>
+
+Reverts if contract is already initialized
+
+</i>
+
+```solidity
+error AlreadyInitialized();
+```
+

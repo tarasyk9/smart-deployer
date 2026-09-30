@@ -1,0 +1,157 @@
+---
+title: "AbstractUtilityContract"
+---
+
+# AbstractUtilityContract
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/UtilityContract/AbstractUtilityContract.sol)
+
+**Inherits:** [IUtilityContract](/src/UtilityContract/interface.IUtilityContract), ERC165
+
+## State Variables
+
+### deployManager
+
+Address of DeployManager that deployed this contract
+
+```solidity
+address public deployManager;
+```
+
+### initialized
+
+Tracks whether the contract has been initialized
+
+```solidity
+bool public initialized;
+```
+
+## Functions
+
+<a id="notinitialized"></a>
+
+### notInitialized
+
+```solidity
+modifier notInitialized();
+```
+
+<a id="initialize-bytes"></a>
+
+### initialize
+
+Initializes the utility contract with the provided data
+
+<i>
+
+This function should be called by the DeployManager after deploying the contract
+
+</i>
+
+```solidity
+function initialize(bytes memory _initData) external virtual returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _initData | `bytes` | The initialization data for the utility contract |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` | True if the initialization was successful |
+
+<a id="setdeploymanager-address"></a>
+
+### setDeployManager
+
+Internal function for setting deployManager
+
+```solidity
+function setDeployManager (address _deployManager) internal virtual;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _deployManager | `address` | DeployManager address |
+
+<a id="validatedeploymanager-address"></a>
+
+### validateDeployManager
+
+Checks if the _deployManager is valid DeployManager
+
+<i>
+
+Validates _deployManager is not zero address and supports IDeployManager interface
+
+</i>
+
+```solidity
+function validateDeployManager(address _deployManager) internal view returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _deployManager | `address` | DeployManager address |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` | True if valid |
+
+<a id="getdeploymanager"></a>
+
+### getDeployManager
+
+Shows DeployManager used for deployment of current contract
+
+```solidity
+function getDeployManager() external view virtual override returns (address);
+```
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `address` | address of deployManager |
+
+<a id="supportsinterface-bytes4"></a>
+
+### supportsInterface
+
+<i>
+
+Returns true if this contract implements the interface defined by
+`interfaceId`. See the corresponding
+https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[ERC section]
+to learn more about how these ids are created.
+
+This function call must use less than 30 000 gas.
+
+</i>
+
+```solidity
+function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| interfaceId | `bytes4` |  |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` |  |
+

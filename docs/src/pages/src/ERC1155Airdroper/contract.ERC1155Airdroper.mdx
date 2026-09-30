@@ -1,0 +1,185 @@
+---
+title: "ERC1155Airdroper"
+description: "This contract allows the owner to airdrop ERC1155 tokens to multiple addresses"
+---
+
+# ERC1155Airdroper
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/ERC1155Airdroper/ERC1155Airdroper.sol)
+
+**Inherits:** [AbstractUtilityContract](/src/UtilityContract/abstract.AbstractUtilityContract), Ownable
+
+**Title:** ERC1155Airdroper - Airdrop utility contract for ERC1155 tokens
+
+This contract allows the owner to airdrop ERC1155 tokens to multiple addresses
+
+<i>
+
+Inherits from AbstractUtilityContract and Ownable
+
+</i>
+
+## Constants
+
+### MAX_AIRDROP_BATCH_SIZE
+
+Maximum number of recipients allowed in a single airdrop
+
+```solidity
+uint256 public constant MAX_AIRDROP_BATCH_SIZE = 100;
+```
+
+## State Variables
+
+### token
+
+ERC1155 token used for the airdrop
+
+```solidity
+IERC1155 public token;
+```
+
+### treasury
+
+Address from which the tokens are transferred
+
+```solidity
+address public treasury;
+```
+
+## Functions
+
+<a id="constructor"></a>
+
+### constructor
+
+Initializes the owner of the implementation contract
+
+<i>
+
+The deployer becomes the initial owner of this implementation
+
+</i>
+
+```solidity
+constructor() payable Ownable(msg.sender);
+```
+
+<a id="airdrop-address-uint256-uint256"></a>
+
+### airdrop
+
+Distributes ERC1155 tokens from treasury to recipients
+
+```solidity
+function airdrop(address[] calldata receivers, uint256[] calldata amounts, uint256[] calldata tokenIds)
+        external
+        onlyOwner;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| receivers | `address[]` | Addresses to receive tokens |
+| amounts | `uint256[]` | Amount of tokens to send per recipient |
+| tokenIds | `uint256[]` | The ids ERC1155 token |
+
+<a id="initialize-bytes"></a>
+
+### initialize
+
+Initializes the airdropper contract with required config
+
+<i>
+
+This function should be called by the DeployManager after deploying the contract
+
+</i>
+
+```solidity
+function initialize(bytes memory _initData) external override notInitialized returns (bool);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _initData | `bytes` | Encoded deployManager, token, amount, treasury and new owner |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bool` | success True if initialized |
+
+<a id="getinitdata-address-address-address-address"></a>
+
+### getInitData
+
+Helper to encode constructor-style init data
+
+```solidity
+function getInitData(address _deployManager, address _token, address _treasury, address _owner)
+        external
+        pure
+        returns (bytes memory);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _deployManager | `address` | Address of the DeployManager |
+| _token | `address` | Address of ERC20 token contract |
+| _treasury | `address` | Address holding the tokens |
+| _owner | `address` | New owner of the contract |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `bytes` | bytes Encoded initialization bytes |
+
+## Errors
+
+### ReceiversLengthMismatch
+
+Reverts if the receivers array has an invalid length
+
+```solidity
+error ReceiversLengthMismatch();
+```
+
+### AmountsLengthMismatch
+
+Reverts if the amounts array has an invalid length
+
+```solidity
+error AmountsLengthMismatch();
+```
+
+### NeedToApproveTokens
+
+<i>
+
+Reverts if insufficient token allowance from treasury
+
+</i>
+
+```solidity
+error NeedToApproveTokens();
+```
+
+### BatchSizeExceeded
+
+<i>
+
+Reverts if batch size exceeds limit
+
+</i>
+
+```solidity
+error BatchSizeExceeded();
+```
+

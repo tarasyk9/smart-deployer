@@ -1,0 +1,280 @@
+---
+title: "IDeployManager"
+description: "This interface defines the functions, errors and events for the DeployManager contract"
+---
+
+# IDeployManager
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/DeployManager/IDeployManager.sol)
+
+**Inherits:** IERC165
+
+**Title:** IDeployManager - Factory for utility contracts
+
+This interface defines the functions, errors and events for the DeployManager contract
+
+## Functions
+
+<a id="deploy-address-bytes"></a>
+
+### deploy
+
+Deploys a new utility contract
+
+<i>
+
+Emits NewDeployment event
+
+</i>
+
+```solidity
+function deploy(address _utilityContract, bytes calldata _initData) external payable returns (address);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _utilityContract | `address` | The address of the registered utility contract |
+| _initData | `bytes` | The initialization data for the utility contract |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `address` | The address of the deployed utility contract |
+
+<a id="addnewcontract-address-uint256-bool"></a>
+
+### addNewContract
+
+Registers a new utility contract
+
+```solidity
+function addNewContract(address _contractAddress, uint256 _fee, bool _isActive) external;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | The address of the utility contract template |
+| _fee | `uint256` | Fee (in wei) required for the deployment |
+| _isActive | `bool` | Ture if the contract can be deployed immediately |
+
+<a id="updatefee-address-uint256"></a>
+
+### updateFee
+
+Updates fee for registered contract
+
+```solidity
+function updateFee(address _contractAddress, uint256 _newFee) external;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | The address of the registered utility contract |
+| _newFee | `uint256` | New fee (in wei) required for the deployment |
+
+<a id="deactivatecontract-address"></a>
+
+### deactivateContract
+
+Disables ability to deploy of a registered contract
+
+<i>
+
+Sets _isActive to false
+
+</i>
+
+```solidity
+function deactivateContract(address _contractAddress) external;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | The address of the registered utility contract |
+
+<a id="activatecontract-address"></a>
+
+### activateContract
+
+Activates ability to deploy of a registered contract
+
+<i>
+
+Sets isActive to true
+
+</i>
+
+```solidity
+function activateContract(address _contractAddress) external;
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | The address of the registered utility contract |
+
+## Events
+
+### NewContractAdded
+
+Emitted when a new utility contract template is registered
+
+```solidity
+event NewContractAdded(address indexed _contractAddress, uint256 _fee, bool _isActive, uint256 _timestamp);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | Address of the registered utility contract template |
+| _fee | `uint256` | Fee (in wei) required to deploy a clone of this contract |
+| _isActive | `bool` | Whether the contract is active and deployable |
+| _timestamp | `uint256` | Timestamp when the contract was added |
+
+### ContractFeeUpdated
+
+Emitted when a contract deployment fee is updated
+
+```solidity
+event ContractFeeUpdated(address indexed _contractAddress, uint256 _oldFee, uint256 _newFee, uint256 _timestamp);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | Address of the registered utility contract |
+| _oldFee | `uint256` | Fee (in wei) required to deploy contract before update |
+| _newFee | `uint256` | Fee (in wei) required to deploy contract after update |
+| _timestamp | `uint256` | Timestamp of fee update |
+
+### ContractStatusUpdated
+
+Emitted when a contract active status is updated
+
+```solidity
+event ContractStatusUpdated(address indexed _contractAddress, bool _isActive, uint256 _timestamp);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _contractAddress | `address` | Address of the registered utility contract |
+| _isActive | `bool` | Ture if the contract can be deployed |
+| _timestamp | `uint256` | Timestamp of status update |
+
+### NewDeployment
+
+Emitted when new utility contract is deployed
+
+```solidity
+event NewDeployment(address indexed _deployer, address indexed _contractAddress, uint256 _fee, uint256 _timestamp);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| _deployer | `address` | Address that initiated deployment |
+| _contractAddress | `address` | Address of the utility contract |
+| _fee | `uint256` | Fee (in wei) paid for deployment |
+| _timestamp | `uint256` | Timestamp of deployment |
+
+## Errors
+
+### ContractNotActive
+
+<i>
+
+Reverts if the contract is not active
+
+</i>
+
+```solidity
+error ContractNotActive();
+```
+
+### NotEnoughtFunds
+
+<i>
+
+Reverts if not enough funds to deploy the contract
+
+</i>
+
+```solidity
+error NotEnoughtFunds();
+```
+
+### ContractDoesNotRegistered
+
+<i>
+
+Reverts if the contract is not registered
+
+</i>
+
+```solidity
+error ContractDoesNotRegistered();
+```
+
+### InitializationFailed
+
+<i>
+
+Reverts if the .initialize() function fails
+
+</i>
+
+```solidity
+error InitializationFailed();
+```
+
+### ContractIsNotUtilityContract
+
+<i>
+
+Reverts if the contract is not a utility contract
+
+</i>
+
+```solidity
+error ContractIsNotUtilityContract();
+```
+
+### AlreadyRegistered
+
+<i>
+
+Reverts if the contracts already registered
+
+</i>
+
+```solidity
+error AlreadyRegistered();
+```
+
+### TransferFailed
+
+<i>
+
+Reverts if the transfer is failed
+
+</i>
+
+```solidity
+error  TransferFailed();
+```
+

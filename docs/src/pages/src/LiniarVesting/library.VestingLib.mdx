@@ -1,0 +1,59 @@
+---
+title: "VestingLib"
+description: "Provides utility functions for calculating vested and claimable token amounts"
+---
+
+# VestingLib
+
+[Git Source](https://github.com/tarasyk9/smart-deployer/blob/67018d55aadc997fe794c3a515538d6ce847f6a5/src/LiniarVesting/VestingLib.sol)
+
+**Title:** Vesting Library
+
+Provides utility functions for calculating vested and claimable token amounts
+
+## Functions
+
+<a id="vestedamount-ivesting-vestinginfo"></a>
+
+### vestedAmount
+
+Calculates the total amount of tokens vested for a given vesting schedule at the current time
+
+```solidity
+function vestedAmount(IVesting.VestingInfo storage v) internal view returns (uint256);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| v | `IVesting.VestingInfo` | The vesting information struct |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `uint256` | The total amount of tokens vested |
+
+<a id="claimableamount-ivesting-vestinginfo"></a>
+
+### claimableAmount
+
+Calculates the amount of tokens currently claimable by the beneficiary
+
+```solidity
+function claimableAmount(IVesting.VestingInfo storage v) internal view returns (uint256);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| v | `IVesting.VestingInfo` | The vesting information struct |
+
+**Returns**
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| &lt;none&gt; | `uint256` | The amount of tokens that can be claimed |
+
