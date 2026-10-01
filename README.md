@@ -1,66 +1,39 @@
-## Foundry
+# Smart Deployer
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Smart Deployer is a universal solution for managing paid smart contract
+deployments.
 
-Foundry consists of:
+📚 [Contracts
+Documentation]https://tarasyk9.github.io/smart-deployer/
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Features
+
+-   Deploy your own `DeployManager`
+-   Create utility contracts using `AbstractUtilityContract`
+-   Set deployment fees
+-   Enable or disable utility contracts
+
+## Getting Started
+
+``` bash
+git clone https://github.com/tarasyk9/smart-deployer.git
+cd smart-deployer
+forge build
+forge test
+```
+
+Make sure [Foundry](https://book.getfoundry.sh/) is installed.
 
 ## Documentation
 
-https://book.getfoundry.sh/
+Generate contract documentation with:
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
+``` bash
+forge doc
 ```
 
-### Test
+## License
 
-```shell
-$ forge test
-```
+Released under the MIT license.
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+------------------------------------------------------------------------
