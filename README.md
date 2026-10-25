@@ -3,8 +3,7 @@
 Smart Deployer is a universal solution for managing paid smart contract
 deployments.
 
-📚 [Contracts
-Documentation]https://tarasyk9.github.io/smart-deployer/
+[Documentation] https://tarasyk9.github.io/smart-deployer/
 
 ## Features
 
